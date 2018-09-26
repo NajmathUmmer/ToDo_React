@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import Nav from "./Nav";
 
 class App extends Component {
   constructor(props) {
@@ -30,8 +30,9 @@ class App extends Component {
   }
   handleSelect(e) {
     this.setState({
-      visiblityFilter: e.target.value
+      visiblityFilter: e.currentTarget.id
     });
+    e.preventDefault();
   }
   handleCheck(e) {
     let tasks = this.state.toDo.map(task => {
@@ -63,33 +64,74 @@ class App extends Component {
     }
 
     const listTasks = tasks.map((task, index) => (
-      <li key={index}>
-        {task.text}
-        <input
-          id={task.text}
-          type="checkbox"
-          onChange={this.handleCheck}
-          checked={task.completed}
-        />
+      <li class="list-group-item" key={index}>
+        <div className="row">
+          <div className="col-9">{task.text}</div>
+          <div className="col-3">
+            <input
+              id={task.text}
+              type="checkbox"
+              onChange={this.handleCheck}
+              checked={task.completed}
+            />
+          </div>
+        </div>
       </li>
     ));
 
     return (
       <div className="App">
-        <form>
-          <input
-            type="text"
-            value={this.state.text}
-            onChange={this.handleChange}
-          />
-          <button onClick={this.handleClick}>Add</button>
-        </form>
-        <select value={this.state.visiblityFilter} onChange={this.handleSelect}>
-          <option value="Completed">Completed</option>
-          <option value="Pending">Pending</option>
-          <option value="All">All</option>
-        </select>
-        <ul>{listTasks}</ul>
+        <Nav />
+        <div className="container">
+          <div className="row">
+            <div className="col-3">
+              <nav className="nav flex-column sideNav nav-pills">
+                <a
+                  className="nav-link active"
+                  id="All"
+                  href=""
+                  onClick={this.handleSelect}
+                  data-toggle="pill"
+                >
+                  All
+                </a>
+                <a
+                  className="nav-link"
+                  id="Completed"
+                  href=""
+                  onClick={this.handleSelect}
+                  data-toggle="pill"
+                >
+                  Completed
+                </a>
+                <a
+                  className="nav-link"
+                  id="Pending"
+                  href=""
+                  onClick={this.handleSelect}
+                  data-toggle="pill"
+                >
+                  Pending
+                </a>
+              </nav>
+            </div>
+            <div className="col-8">
+              <form onSubmit={this.handleClick}>
+                <input
+                  type="text"
+                  value={this.state.text}
+                  className="form-control textField"
+                  onChange={this.handleChange}
+                />
+              </form>
+
+              <ul className="textField list-group">{listTasks}</ul>
+            </div>
+            <div className="col-1">
+              <button className="btn btn-primary textField">Add</button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
