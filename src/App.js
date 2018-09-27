@@ -81,7 +81,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Nav />
+        {/* <Nav /> */}
         <div className="container">
           <div className="row">
             <div className="col-3">
